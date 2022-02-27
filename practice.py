@@ -14,7 +14,7 @@ diagonal_array_4 = []
 diagonal_array_5 = []
 diagonal_array_mid = []
 
-# TODO/ get 52 variables to store each diagonal set of values, so they can be summed later,
+# get 52 variables to store each diagonal set of values, so they can be summed later,
 # and all the variable sums can be added into a list,
 # to make one projection
 
