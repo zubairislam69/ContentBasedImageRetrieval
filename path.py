@@ -10,3 +10,7 @@ for c in classes:
     images_path = os.path.join(MNIST_path, c)
     image_files = os.listdir(images_path)
     print(image_files)
+
+# image_path = os.path.join(os.getcwd(), 'MNIST_DS/' + c, image_name)
+#
+# image = Image.open(image_path)
