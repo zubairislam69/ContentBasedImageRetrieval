@@ -20,8 +20,6 @@ projection_2_top_final = []
 projection_2_bottom_initial = []
 projection_2_bottom_final = []
 
-projection_2 = []
-
 main_diagonal_initial = []
 main_diagonal = []
 
@@ -33,7 +31,7 @@ for i in range(26):  # 2- 27
     split_by_length_bottom.append(27 - i)
 
 for j in range(26):
-    for i in range((27 - j), ((x * x) - (725 - (29 * j))), n):  # 29(28-3) want 3 to increment
+    for i in range((27 - j), (784 - (725 - (29 * j))), n):  #26, 88
         projection_2_top_initial.append(d.get(i))
 
     for i in range((28 + (1 + (28 * j))), 784, n):  # 729
@@ -62,7 +60,7 @@ for i in range(1, 800, n):  # GETS MAIN DIAGONAL FROM TOP LEFT TO BOTTOM RIGHT
 main_diagonal.append(sum(main_diagonal_initial))
 
 
-projection_2.append(projection_2_top_final + main_diagonal + projection_2_bottom_final)
+projection_2 = (projection_2_top_final + main_diagonal + projection_2_bottom_final)
 
 print("\nProjection 2")
 
