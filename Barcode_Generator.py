@@ -8,11 +8,10 @@ import matplotlib.pyplot as plt
 
 # load and show an image with Pillow
 from PIL import Image
-import seaborn as sns;
-
-start = time.time()
+import seaborn as sns
 
 sns.set()
+
 
 c = '9'
 
