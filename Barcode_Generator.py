@@ -121,6 +121,15 @@ for i in range(100):
 
     print("\nbarcode for " + image_name)
     print(barcode)
+    print()
+
+    #Convert to dictionary
+    dictionary =[]
+    nameAppend={}
+    nameAppend[image_name] = barcode
+    arr.append(nameAppend)
+    print(dictionary)
+    #Yo
 
     picNum = picNum + 1
     if(picNum%10 == 0):
