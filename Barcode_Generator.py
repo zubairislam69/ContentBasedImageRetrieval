@@ -4,7 +4,9 @@ import time
 
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
+time.time()
 
 # load and show an image with Pillow
 from PIL import Image
@@ -124,6 +126,11 @@ for i in range(100):
     if(picNum%10 == 0):
         fileNum = fileNum+1
 
+
+end = time.time()
+
+total = end - start
+print(total)
 
 #c = '9'
 #image_name = 'img_99.jpg'
