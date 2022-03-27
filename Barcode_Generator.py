@@ -125,7 +125,7 @@ for i in range(100):
     dictionary =[]
     nameAppend={}
     nameAppend[image_name] = barcode
-    arr.append(nameAppend)
+    dictionary.append(nameAppend)
     print(dictionary)
     #Yo
 
