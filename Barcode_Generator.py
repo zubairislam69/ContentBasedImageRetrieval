@@ -1,12 +1,7 @@
 import os
-from itertools import islice
-import time
-
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-
-time.time()
 
 # load and show an image with Pillow
 from PIL import Image
@@ -14,88 +9,80 @@ import seaborn as sns
 
 start = time.time()
 
-picNum =0;
-fileNum=0;
+picNum = 0
+fileNum = 0
 
 sns.set()
 
-counter =0
+counter = 0
 d = {}
+dictionary = []
+
+file = open("barcodes.txt", "w")
 
 for i in range(10):
     for j in range(10):
-        d[counter]='img_'+str(i)+str(j)+'.jpg'
-        counter = counter+1
-
+        d[counter] = 'img_' + str(i) + str(j) + '.jpg'
+        counter = counter + 1
 
 for i in range(100):
     image_name = d[picNum]
     image_path = os.path.join(os.getcwd(), 'MNIST_DS/' + str(fileNum), image_name)
-    print(image_path)
+    # print(image_path)
     image = Image.open(image_path)
     arr = np.asarray(image)
 
-    # Projection 1 Start
+# Projection 1
     proj_1 = []
 
-    for i in range(28):
-        proj_1.append(sum(arr[i]))
+    for r in range(28):
+        proj_1.append(sum(arr[r]))
 
-    print("\nProjection 1:")
-    print(proj_1)
+    # print("\nProjection 1:")
+    # print(proj_1)
 
-    # Projection 1 End
-
-    # projection 2 start
+# Projection 2
     proj_2 = []
-    for i in range(26, -27, -1):
-        proj_2.append(sum(np.diagonal(arr, i)))
+    for r in range(26, -27, -1):
+        proj_2.append(sum(np.diagonal(arr, r)))
 
-    print("\nProjection 2")
-    print(proj_2)
-    # projection 2 end
+    # print("\nProjection 2")
+    # print(proj_2)
 
-    # projection 3 start
-
+# Projection 3
     proj_3 = []
-    for i in range(27, -1, -1):
-        proj_3.append(sum(arr[:, i]))
+    for r in range(27, -1, -1):
+        proj_3.append(sum(arr[:, r]))
 
-    print("\nProjection 3")
-    print(proj_3)
+    # print("\nProjection 3")
+    # print(proj_3)
 
-    # projection 3 end
-
-    # projection 4 start
+# Projection 4
     proj_4 = []
-    for i in range(-26, 27):
-        proj_4.append(sum(np.fliplr(arr).diagonal(i)))
+    for r in range(-26, 27):
+        proj_4.append(sum(np.fliplr(arr).diagonal(r)))
 
-    print("\nProjection 4")
-    print(proj_4)
+    # print("\nProjection 4")
+    # print(proj_4)
 
-
-    # projection 4 end
-
+# Get average of each projection
     def average(p):
-        average = round((sum(p) / len(p)), 0)
-        return average
+        proj_average = round((sum(p) / len(p)), 0)
+        return proj_average
 
+    # print("\nAverage of P1")
+    # print(average(proj_1))
+    #
+    # print("Average of P2")
+    # print(average(proj_2))
+    #
+    # print("Average of P3")
+    # print(average(proj_3))
+    #
+    # print("Average of P4")
+    # print(average(proj_4))
 
-    print("\nAverage of P1")
-    print(average(proj_1))
-
-    print("Average of P2")
-    print(average(proj_2))
-
-    print("Average of P3")
-    print(average(proj_3))
-
-    print("Average of P4")
-    print(average(proj_4))
-
-
-    # Convert to 1 and 0
+# Convert to 1 and 0
     def generate_c(p):
         c = []
         for item in p:
@@ -121,31 +108,37 @@ for i in range(100):
 
     print("\nbarcode for " + image_name)
     print(barcode)
+
+
+# length of barcode = 162
+    h = ""
+    for i in range(162):
+        h += str(barcode[i])
+
+    file.write("barcode for " + str(image_name) + ": ")
+    file.write(h)
+    file.write("\n")
+    file.write("\n")
+
+
+
     print()
 
-    #Convert to dictionary
-    dictionary =[]
-    nameAppend={}
-    nameAppend[image_name] = barcode
-    arr.append(nameAppend)
-    print(dictionary)
-    #Yo
+    # Add all barcode to dictionary with key as image name and value as barcode
+    nameAppend = {image_name: barcode}
+    dictionary.append(nameAppend)
+    # print(dictionary)
 
     picNum = picNum + 1
-    if(picNum%10 == 0):
-        fileNum = fileNum+1
 
+    if picNum % 10 == 0:
+        fileNum = fileNum + 1
+
+print(dictionary)
+file.close()
 
 end = time.time()
 
 total = end - start
+print("\n")
 print(total)
-
-#c = '9'
-#image_name = 'img_99.jpg'
-#image_path = os.path.join(os.getcwd(), 'MNIST_DS/' + i, image_name)
-#print(image_path)
-#image = Image.open(image_path)
-
-#arr = np.asarray(image)
-
