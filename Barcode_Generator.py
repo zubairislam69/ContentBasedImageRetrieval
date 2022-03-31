@@ -1,99 +1,63 @@
 import os
-from itertools import islice
-import time
-
 import numpy as np
-import matplotlib.pyplot as plt
-
-
-# load and show an image with Pillow
 from PIL import Image
-import seaborn as sns
 
-start = time.time()
+picNum = 0
+fileNum = 0
 
-picNum =0;
-fileNum=0;
-
-sns.set()
-
-counter =0
+counter = 0
 d = {}
+
+# list variable to store barcodes with image name as key and barcode as value
+dictionary = []
+
+# open file to write into
+file = open("barcodes.txt", "w")
 
 for i in range(10):
     for j in range(10):
-        d[counter]='img_'+str(i)+str(j)+'.jpg'
-        counter = counter+1
-
+        d[counter] = 'img_' + str(i) + str(j) + '.jpg'
+        counter = counter + 1
 
 for i in range(100):
     image_name = d[picNum]
     image_path = os.path.join(os.getcwd(), 'MNIST_DS/' + str(fileNum), image_name)
-    print(image_path)
+    # print(image_path)
     image = Image.open(image_path)
     arr = np.asarray(image)
 
-    # Projection 1 Start
+    # lists to store projections
     proj_1 = []
-
-    for i in range(28):
-        proj_1.append(sum(arr[i]))
-
-    print("\nProjection 1:")
-    print(proj_1)
-
-    # Projection 1 End
-
-    # projection 2 start
     proj_2 = []
-    for i in range(26, -27, -1):
-        proj_2.append(sum(np.diagonal(arr, i)))
-
-    print("\nProjection 2")
-    print(proj_2)
-    # projection 2 end
-
-    # projection 3 start
-
     proj_3 = []
-    for i in range(27, -1, -1):
-        proj_3.append(sum(arr[:, i]))
-
-    print("\nProjection 3")
-    print(proj_3)
-
-    # projection 3 end
-
-    # projection 4 start
     proj_4 = []
-    for i in range(-26, 27):
-        proj_4.append(sum(np.fliplr(arr).diagonal(i)))
 
-    print("\nProjection 4")
-    print(proj_4)
+    # Projection 1
+    for r in range(28):
+        proj_1.append(sum(arr[r]))  # sums all values in each row from top to bottom
 
+    # Projection 2
+    for r in range(26, -27, -1):
+        proj_2.append(sum(np.diagonal(arr, r)))  # sums all values in each diagonal '\'
+        # starting from top right to bottom left
 
-    # projection 4 end
+    # Projection 3
+    for r in range(27, -1, -1):
+        proj_3.append(sum(arr[:, r]))  # sums all values in each column from right to left
 
+    # Projection 4
+    for r in range(-26, 27):
+        proj_4.append(sum(np.fliplr(arr).diagonal(r)))  # sums all values in each diagonal '/'
+        # starting from bottom right to top left
+
+    # Gets the average of each projection
     def average(p):
-        average = round((sum(p) / len(p)), 0)
-        return average
+        proj_average = round((sum(p) / len(p)), 0)
+        return proj_average
 
-
-    print("\nAverage of P1")
-    print(average(proj_1))
-
-    print("Average of P2")
-    print(average(proj_2))
-
-    print("Average of P3")
-    print(average(proj_3))
-
-    print("Average of P4")
-    print(average(proj_4))
-
-
-    # Convert to 1 and 0
+    # Takes the projection list, gets the average, and compares the average
+    # against each value in the list, and if the value in the list is greater than the average,
+    # a 1 is placed in that spot, otherwise place 0
     def generate_c(p):
         c = []
         for item in p:
@@ -104,41 +68,45 @@ for i in range(100):
         return c
 
 
+    # Generate the code fragments for each projection
     c1 = generate_c(proj_1)
     c2 = generate_c(proj_2)
 
     c3 = generate_c(proj_3)
     c4 = generate_c(proj_4)
 
-    # print('c1:', c1)
-    # print('c2:', c1)
-    # print('c3:', c3)
-    # print('c4:', c1)
-
+    # Add all code fragments together to get complete barcode for image
     barcode = c1 + c2 + c3 + c4
 
+    # Print out each barcode with its image name
     print("\nbarcode for " + image_name)
     print(barcode)
-    print()
 
-    #Convert to dictionary
-    dictionary =[]
-    nameAppend={}
-    nameAppend[image_name] = barcode
+    # Removes all commas and whitespace from barcode
+    h = ""
+    for i in range(162):
+        h += str(barcode[i])
+
+    # Adds each barcode into text file with corresponding image name
+    file.write("barcode for " + str(image_name) + ": ")
+    file.write(h)
+    file.write("\n")
+    file.write("\n")
+
+    # Add all barcode to dictionary with key as image name and value as barcode
+    nameAppend = {image_name: barcode}
     dictionary.append(nameAppend)
-    print(dictionary)
-    #Yo
 
     picNum = picNum + 1
-    if(picNum%10 == 0):
-        fileNum = fileNum+1
 
+    if picNum % 10 == 0:
+        fileNum = fileNum + 1
 
-#c = '9'
-#image_name = 'img_99.jpg'
-#image_path = os.path.join(os.getcwd(), 'MNIST_DS/' + i, image_name)
-#print(image_path)
-#image = Image.open(image_path)
+# print dictionary
+print("\n")
+print(dictionary)
 
-#arr = np.asarray(image)
+# close text file
+file.close()
+
 
