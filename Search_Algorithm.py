@@ -1,4 +1,4 @@
-# Function for the formula for hamming distance between the bit-strings of barcodes
+# Function for the formula for hamming distance between the bit-strings of barcode
 def hamming_distance(string_1, string_2):
     if (len(string_1) == len(string_2)):
         d = 0
