@@ -92,6 +92,7 @@ for i in range(100):
         h += str(barcode[i])
 
     # Adds each barcode into text file with corresponding image name
+    print(image_name)
     file.write("barcode for " + str(image_name) + ": ")
     file.write(h)
     file.write("\n")
