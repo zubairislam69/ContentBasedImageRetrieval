@@ -39,7 +39,7 @@ def Find_Distance(Barcode_List, number):
 
     return distance_list  # Return the distance list
 
-# Checks to see if the input number is present in the barcode list
+# Checks to see whether the input number is present in the barcode list
 def Check_Input_Number(list_barcode, number):
     check = 0
     for x in range(len(list_barcode)):
