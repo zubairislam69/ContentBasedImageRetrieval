@@ -18,7 +18,7 @@ def get_barcodes_data_list(file):
     split_list = []  # Get the barcode data list in an array
 
     while line:
-        line = line.strip()  # Removes the leading and trailing characters
+        line = line.strip()  # Removes the leading and trailing characters and spaces
         split_data = line.split(' ')  # Splits a string into a list
         split_list.append(split_data)
         line = file.readline()
