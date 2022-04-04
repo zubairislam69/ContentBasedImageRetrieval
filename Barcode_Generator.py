@@ -2,10 +2,9 @@ import os
 import numpy as np
 from PIL import Image
 
-#declare variables
+# declare variables
 picNum = 0
 fileNum = 0
-#declare variables
 counter = 0
 d = {}
 
@@ -15,16 +14,16 @@ dictionary = []
 # open file to write into
 file = open("barcodes.txt", "w")
 
-#runs a for loop to loop through all the class files in MNIST_DS
+# runs a for loop to loop through all the class files in MNIST_DS
 for i in range(10):
-    #runs a for loop to loop through all the files inside each class file in MNIST_DS
+    # runs a for loop to loop through all the files inside each class file in MNIST_DS
     for j in range(10):
-        #saves the image name into the dictionary with specific keys
+        # saves the image name into the dictionary with specific keys
         d[counter] = 'img_' + str(i) + str(j) + '.jpg'
-        #adds 1 to counter
+        # adds 1 to counter
         counter = counter + 1
 
-#runs for loop 100 times to loop through all the files in MNIST_DS
+# runs for loop 100 times to loop through all the files in MNIST_DS
 for i in range(100):
     image_name = d[picNum]
     image_path = os.path.join(os.getcwd(), 'MNIST_DS/' + str(fileNum), image_name)
@@ -77,7 +76,6 @@ for i in range(100):
     # Generate the code fragments for each projection
     c1 = generate_c(proj_1)
     c2 = generate_c(proj_2)
-
     c3 = generate_c(proj_3)
     c4 = generate_c(proj_4)
 
@@ -87,13 +85,6 @@ for i in range(100):
     # Print out each barcode with its image name
     print("\nbarcode for " + image_name)
     print(barcode)
-
-    #Convert to dictionary
-    dictionary =[]
-    nameAppend={}
-    nameAppend[image_name] = barcode
-    dictionary.append(nameAppend)
-    print(dictionary)
 
     # Removes all commas and whitespace from barcode
     h = ""
@@ -122,5 +113,3 @@ print(dictionary)
 
 # close text file
 file.close()
-
-
