@@ -53,7 +53,7 @@ def check_input_number(list_barcode, number):
     return check
 
 
-# Function arranges the number of images
+# Function arranges the number of images within the same class digit
 def arrange_image_data(image_data):
     image_syntax = image_data[:4]
     image_number = int(image_data[4:6])
@@ -131,7 +131,9 @@ def arrange_x_value(value):
 
 # function to replace the  numbers
 def replace_values(list_to_replace, item_to_replace, item_to_replace_with):
-    return [item_to_replace_with if item == item_to_replace else item for item in list_to_replace]
+    return [item_to_replace_with
+            if item == item_to_replace
+            else item for item in list_to_replace]
 
 
 file = open('barcodes.txt', 'r')  # Read The File (barcodes.txt)
@@ -154,10 +156,9 @@ while restart:
         minimum_index = Distance_List.index(min(Distance_List))  # Find the minimum number Index
         Image_Data = List_barcode[minimum_index][2]  # Get The Image Data of minimum number
         actual_image = arrange_image_data(Image_Data)
-
+        # Display the Data
         print('The most similar Image is : {} and the Hamming Distance of the Image is: {}'.format(Image_Data,
-                                                                                                   minimum_hamming_distance))  # Display the Data
-
+                                                                                        minimum_hamming_distance))
         print("\n")
     else:
         print('Please Enter Correct Number : ')
