@@ -165,7 +165,8 @@ while restart:
 
         print("\n")
 
-    answer = input("Would you like to search for another image? ('Y' for yes and 'N' for no): ")
+    answer = input("If you would like to search another image, type 'Y'. OTHERWISE, type 'N' to get "
+                   "the hit ratio results: ")
     print("\n")
     if answer == "N" or answer == "n":
         restart = False
