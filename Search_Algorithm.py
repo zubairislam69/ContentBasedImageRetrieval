@@ -28,24 +28,24 @@ def get_barcodes_data_list(file):
 
 # Function to find the distance comparing all possible combinations of 2 barcodes along the full length of each barcode
 def find_distance(barcode_list, number):
-    size_list_barcode = len(barcode_list)
-    str1 = barcode_list[int(number)][3]
-    distance_list = []  # Get the distance list in an array
+    size_list_barcode = len(barcode_list) # Gets the length of each barcode
+    str1 = barcode_list[int(number)][3]  # Gets the entire barcode as an integer
+    distance_list = []  # Gets the distances in an array as a list
 
-    for x in range(0, size_list_barcode):  # Iterate over every barcode starting from 0
-        str2 = barcode_list[x][3]
-        res = hamming_distance(str1, str2)
+    for x in range(0, size_list_barcode):  # Iterates over every barcode starting from 0
+        str2 = barcode_list[x][3] # Gets the barcode of the second string to compare with the first string
+        res = hamming_distance(str1, str2) # hamming distance is stored in a varible
         distance_list.append(res)
 
-    return distance_list  # Return the distance list
+    return distance_list  # Returns the distance list
 
 
 # Checks to see whether the input image number is present in the barcode list
 def check_input_number(list_barcode, number):
     check = 0
-    for x in range(len(list_barcode)):
-        compare_data = list_barcode[x][2][4:6]
-        if number == compare_data:
+    for x in range(len(list_barcode)): # Iterates over the length of all images i.e. 100
+        compare_data = list_barcode[x][2][4:6] # Checks for the image number by going through the syntax of each image
+        if number == compare_data: # If the number entered is present in either of the image sytanx then it returns 1
             check = 1
             return check
         else:
@@ -55,8 +55,8 @@ def check_input_number(list_barcode, number):
 
 # Function arranges the number of images within the same class digit
 def arrange_image_data(image_data):
-    image_syntax = image_data[:4]
-    image_number = int(image_data[4:6])
+    image_syntax = image_data[:4]  # Gets the "img_" part from image barcode syntax
+    image_number = int(image_data[4:6]) # Gets the image number from the image barcode syntax
     image_name = ''
 
     if 0 <= image_number <= 9:
@@ -92,7 +92,8 @@ def arrange_image_data(image_data):
     return image_name
 
 
-# Function arranges the x value
+# Function arranges the exact image number labelled as an x value here to differentiate from the above function created
+# to arrange classes wihtin the range of 10's
 def arrange_x_value(value):
     number = 0
 
@@ -129,7 +130,7 @@ def arrange_x_value(value):
     return number
 
 
-# function to replace the  numbers
+# function to replace the  numbers (swaps the image being searched with 1000)
 def replace_values(list_to_replace, item_to_replace, item_to_replace_with):
     return [item_to_replace_with
             if item == item_to_replace
@@ -171,21 +172,21 @@ while restart:
     if answer == "N" or answer == "n":
         restart = False
 
-# Find the Accuracy
+# Find the Accuracy and hit ratio
 
 Total_Images = 100
 count = 0
 
 for x in range(0, 100):
 
-    Distance_Data = find_distance(List_barcode, x)  # find Distance
-    Distance_Data = replace_values(Distance_Data, 0, 1000)  # Replace the 0 , 1000
-    minimum_hamming_distance = min(Distance_List)  # Find the minimum Number
-    Minimum_Data_Index = Distance_Data.index(min(Distance_Data))  # Find the minimum number Index
-    image_data = List_barcode[Minimum_Data_Index][2]  # Get The Image Data of minimum number
-    Actual_Image = arrange_image_data(image_data)  # Get the Actual Image Number
-    Actual_Image = int(Actual_Image[4:6])
-    z = x
+    Distance_Data = find_distance(List_barcode, x)  # Finds Distance
+    Distance_Data = replace_values(Distance_Data, 0, 1000)  # Replaces the 0 , 1000
+    minimum_hamming_distance = min(Distance_List)  # Finds the minimum Number
+    Minimum_Data_Index = Distance_Data.index(min(Distance_Data))  # Finds the minimum number Index
+    image_data = List_barcode[Minimum_Data_Index][2]  # Gets The Image Data of minimum number
+    Actual_Image = arrange_image_data(image_data)  # Gets the Actual Image Number
+    Actual_Image = int(Actual_Image[4:6])  # Gets the class digit number
+    z = x # Stores values of x in another variable to get the exact image number from a class
     x = arrange_x_value(x)
     if x == Actual_Image:  # Check the similar Images and Count
         print('The Image# : {} is in class digit : {} -> Hit'.format(z, Actual_Image))
@@ -193,6 +194,6 @@ for x in range(0, 100):
     else:
         print('The Image# : {} is in class digit : {} -> Miss'.format(z, Actual_Image))
 
-acc = count / Total_Images  # Find the Accuracy
+acc = count / Total_Images  # Finding the Accuracy
 
-print('Accuracy : {} %'.format(int(acc * 100)))
+print('Accuracy : {} %'.format(int(acc * 100))) # Gets the percentage of acccuracy
